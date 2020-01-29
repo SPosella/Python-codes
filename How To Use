@@ -1,0 +1,35 @@
+############################################################
+#                     HOW TO USE                           #
+############################################################
+
+• communication.py
+  this file contains functions provided by Ivan Vujaklija, that creates a socket and allow communication with 64 device.
+  Following functions are included:
+  - integer_to_byte
+  - convert_bytes_to_int
+  - create_bin_command (contains import variables about how you want to configure 64:
+                        rec, trig, ext, hpf, hres, mode, nch, fsamp, getset)
+  - bytes_to_integers
+  - read_raw_bytes
+  - connect_to_sq
+  - disconnect_from_sq
+  
+• live_plot.py
+  this file contains a real implementation of communication with 64 device. Main create a socket using "socket" library and start 
+  communication with functions provided above. Inside this file two important classes are defined: 
+    - Track (containing data of the signal, color of the track and offset used for visualization in same plot)
+    - Soundtrack (containing a list of tracks we want to display)
+  Following functions are included:
+  - live_plotter (deprecated, used for testing plot)
+  - multi_live_plotter (deprecated, used for testing plot)
+  - init_multiplot (used inside Soundtrack initialization for defining multiple subplot and plot one channel to each of them.
+                    Matplotlib performance are poor so I suggest to try only if you have few channels (<= 8))
+  - init_multilines (used inside Soundtrack initialization to draw all channels on same plot, best performance)
+  
+  Important variables
+  - MULTIPLOT (1 if you want to initialize soundtrack with subplots, 0 to draw all channels on same plot(recommended choice))
+  - arraysize (number of point to draw for each channel in plot, default is 25)
+  - OFFSET_BETWEEN_CHANNELS (used for distance between channels)
+  
+  Main start communication and update Soundtrack at every (i % (sample_frequency / 10) ==0) condition where sample frequency is 
+  given by communication file (usually 500 or 2000)
